@@ -1,0 +1,12 @@
+def pair_frequecies(word_list):
+    dict={}
+    for word in word_list:
+        if len(word)>=2:
+            for i in range(len(word)-1):
+                pair=word[i:i+2]
+                if pair in dict:
+                    dict[pair]+=1
+                else :
+                    dict[pair] = 1
+    for pair ,count in dict.items():
+                print(pair,":",count)

@@ -1,0 +1,24 @@
+class Room:
+    def __init__(self,name,length,breadth):
+        self._name=name
+        self._length=int(length)
+        self._breadth=int(breadth)
+    def get_name(self):
+        return self._name
+    def get_length(self):
+        return  self._length
+    def get_breadth(self):
+        return  self._breadth
+    def compute_area(self):
+        return  self._length*self._breadth
+    def __str__(self):
+        return self._name + 
+def main():
+    liv=Room("MYLIVINGROOM",14,20)
+    bd1=Room("firstBR",10,12)
+    bd2=Room("secondBR",10,9)
+    name=liv.get_name()
+    print(str(liv))
+    bd1_area=bd1.compute_area()
+    bd2_area=bd2.compute_area()
+    print(int(bd1_area)+int(bd2_area))

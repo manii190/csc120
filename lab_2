@@ -1,0 +1,18 @@
+def compare(file1,file2):
+    f1=open(file1)
+    f2=open(file2)
+    lines_of_f1=file1.readlines()
+    lines_of_f2=file2.readlines()
+    for lines_of_f1 in f1:
+        if lines_of_f1!=lines_of_f2:
+            print("lines are different")
+def compare(file1,file2):
+    f1=open(file1)
+    f2=open(file2)
+    lines_of_f1=file1.readlines()
+    lines_of_f2=file2.readlines()
+    min=min(len(lines_of_f1),len(lines_of_f2))
+    for i in range(min):
+        if lines_of_f1[i]!=lines_of_f2[i]:
+            print("lines are different")
+

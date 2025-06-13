@@ -1,0 +1,188 @@
+def merge_dicts(d1,d2):
+    dict={}
+    for key in d1:
+        dict[key]=d1[key]
+    for key in d2:
+        if key in dict:
+            dict[key]+=d2[key]
+        else:
+            dict[key]=d2[key]
+    return dict
+# Step 1: Read File and Store Pokémon Data
+filename = input()  # Ask user for filename (silent prompt)
+
+# Open the file manually
+file = open(filename, "r")
+
+# Dictionary to store Pokémon data by Type 1
+pokemon_data = {}
+
+# Read the file line by line
+for line in file:
+    line = line.strip()  # Remove extra spaces/newline characters
+
+    # Ignore comment lines and empty lines
+    if line and line[0] != "#":
+        values = line.split(",")
+
+        # Extract relevant data
+        name = values[1]           # Pokémon Name
+        type1 = values[2]          # Type 1
+        stats = {
+            "Total": int(values[5]),
+            "HP": int(values[6]),
+            "Attack": int(values[7]),
+            "Defense": int(values[8]),
+            "SpecialAttack": int(values[9]),
+            "SpecialDefense": int(values[10]),
+            "Speed": int(values[11])
+        }
+
+        # Store Pokémon data by Type 1
+        if type1 not in pokemon_data:
+            pokemon_data[type1] = {}
+
+        pokemon_data[type1][name] = stats  # Store Pokémon stats by name
+
+# Close the file manually
+file.close()
+
+
+# Step 2: Compute Average Stats for Each Pokémon Type
+average_stats = {}
+
+for poke_type, pokemons in pokemon_data.items():
+    count = len(pokemons)  # Number of Pokémon of this type
+
+    # Initialize accumulators for each stat
+    total_sum = 0
+    hp_sum = 0
+    attack_sum = 0
+    defense_sum = 0
+    sp_attack_sum = 0
+    sp_defense_sum = 0
+    speed_sum = 0
+
+    # Sum up all stats for the Pokémon of this type
+    for stats in pokemons.values():
+        total_sum += stats["Total"]
+        hp_sum += stats["HP"]
+        attack_sum += stats["Attack"]
+        defense_sum += stats["Defense"]
+        sp_attack_sum += stats["SpecialAttack"]
+        sp_defense_sum += stats["SpecialDefense"]
+        speed_sum += stats["Speed"]
+
+    # Compute the average for each stat
+    average_stats[poke_type] = {
+        "Total": total_sum / count,
+        "HP": hp_sum / count,
+        "Attack": attack_sum / count,
+        "Defense": defense_sum / count,
+        "SpecialAttack": sp_attack_sum / count,
+        "SpecialDefense": sp_defense_sum / count,
+        "Speed": speed_sum / count
+    }
+
+
+# Step 3: Handle User Queries
+
+exit_flag = False  # Flag to control when to stop
+
+while not exit_flag:
+    query = input().strip()  # Get query input from user, and strip extra spaces
+
+    # If the query is empty, stop processing (exit the loop)
+    if query == "":
+        print("Exiting the program.")
+        exit_flag = True  # Set flag to exit the loop
+    else:
+        # Convert query to lowercase for case-insensitive comparison
+        query = query.lower()
+
+        # Initialize variables to store the max value and corresponding types
+        max_value = None
+        max_average = None
+
+        # Check the query and find the corresponding maximum average values
+        if query == "total":
+            for poke_type, stats in average_stats.items():
+                if max_value is None:
+                    max_value = stats["Total"]
+                    max_average = poke_type
+                elif stats["Total"] > max_value:
+                    max_value = stats["Total"]
+                    max_average = poke_type
+
+        elif query == "hp":
+            for poke_type, stats in average_stats.items():
+                if max_value is None:
+                    max_value = stats["HP"]
+                    max_average = poke_type
+                elif stats["HP"] > max_value:
+                    max_value = stats["HP"]
+                    max_average = poke_type
+
+        elif query == "attack":
+            for poke_type, stats in average_stats.items():
+                if max_value is None:
+                    max_value = stats["Attack"]
+                    max_average = poke_type
+                elif stats["Attack"] > max_value:
+                    max_value = stats["Attack"]
+                    max_average = poke_type
+
+        elif query == "defense":
+            for poke_type, stats in average_stats.items():
+                if max_value is None:
+                    max_value = stats["Defense"]
+                    max_average = poke_type
+                elif stats["Defense"] > max_value:
+                    max_value = stats["Defense"]
+                    max_average = poke_type
+
+        elif query == "specialattack":
+            for poke_type, stats in average_stats.items():
+                if max_value is None:
+                    max_value = stats["SpecialAttack"]
+                    max_average = poke_type
+                elif stats["SpecialAttack"] > max_value:
+                    max_value = stats["SpecialAttack"]
+                    max_average = poke_type
+
+        elif query == "specialdefense":
+            for poke_type, stats in average_stats.items():
+                if max_value is None:
+                    max_value = stats["SpecialDefense"]
+                    max_average = poke_type
+                elif stats["SpecialDefense"] > max_value:
+                    max_value = stats["SpecialDefense"]
+                    max_average = poke_type
+
+        elif query == "speed":
+            for poke_type, stats in average_stats.items():
+                if max_value is None:
+                    max_value = stats["Speed"]
+                    max_average = poke_type
+                elif stats["Speed"] > max_value:
+                    max_value = stats["Speed"]
+                    max_average = poke_type
+
+        else:
+            # Handle unsupported queries
+            max_value = None
+            max_average = None
+
+        # If we have a valid query (recognized one), find all types with the max average value
+        if max_value is not None and max_average is not None:
+            result_types = []
+            for poke_type, stats in average_stats.items():
+                if stats[query.capitalize()] == max_value:
+                    result_types.append(poke_type)
+
+            # Sort result types alphabetically
+            result_types.sort()
+
+            # Print out the result
+            for poke_type in result_types:
+                print(poke_type + ": " + str(int(max_value)))  # Use int to display value as an integer
